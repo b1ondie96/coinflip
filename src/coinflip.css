@@ -1,0 +1,255 @@
+.content > * {
+  font-family: "JetBrains Mono",monospace;
+  text-transform: lowercase;
+  
+}
+.content.dark {
+  background-color: var(--bg-dark);
+  color: var(--col-dark);}
+.content.dark>* {
+  background-color: var(--bg-dark);
+  color: var(--col-dark);
+}
+.scene {
+  width: fit-content;
+  max-width: 70vw;
+  max-height: 30vh;
+  min-height: 10vh;
+  
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+
+  padding: 2rem;
+}
+
+.Coincard {
+  width: 25em;
+  height: 25em;
+  position: relative;
+  transition: transform;
+  display: flex;
+  transform-style: preserve-3d;
+  margin: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 5rem;
+  margin-bottom: 1.5em;
+   -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.card__face {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: 600;
+
+}
+
+
+.card__face--back {
+  
+  
+  transform: rotateY(180deg);
+  
+}
+
+.cfcontrols {
+  display: flex;
+  margin: auto;
+  margin-top: 2rem;
+  
+  height: 4rem;
+  
+  width: 100%;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 2em;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flipbtn {
+  padding:1rem;
+  height: 3rem;
+  font-size: 2rem;
+  
+  border-radius: 10px;
+  box-shadow: none;
+  color: black !important;
+  width:auto;
+border: 2px solid black;
+ 
+  
+  
+}
+.switch {
+  display: flex;
+  align-items: center;
+}
+.slider {
+  width: 100%;
+  max-width: 14em;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+}
+.history--item {
+ width: 100%;
+ height: 100%;
+ flex-basis: 3rem;
+ 
+
+  
+  
+}
+.history--icon {
+ width: 3rem;
+ height: 3rem;
+ 
+}
+.iconholder {
+ 
+  height: 100%;
+  width: 100%;
+ 
+  
+}
+.modal::-webkit-scrollbar {
+  display: none;
+}
+.modal {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;  /* breaks scrolling. bug? */
+  
+ 
+
+  width: 80vw;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 25px;
+  margin: auto;
+  padding: 1rem;
+  overflow: scroll;
+  scrollbar-width: none;
+  font-family: "JetBrains Mono",monospace;
+  text-transform: lowercase;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgb(0 0 0 / 17%);
+  min-height: 34px;
+  border: 1px black;
+  border-style: solid;
+  
+}
+.stats {
+  width: 10rem;
+  padding: 2rem;
+  }
+  .stats > button {
+    margin: 0 0.5rem;
+    width: auto;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    color: black;
+  }
+.rc-tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  visibility: visible;
+  font-size: 1rem;
+  line-height: 1.5;
+  
+}
+.rc-tooltip-hidden {
+  display: none;
+}
+.rc-tooltip-inner {
+  padding: 8px 10px;
+  color: black;
+  text-align: left;
+  text-decoration: none;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.17);
+  min-height: 34px;
+  border: 1px black;
+  border-style: solid;
+  font-family: "JetBrains Mono",monospace;
+  text-transform: lowercase;
+  
+}
+.rc-tooltip-inner  >ul  {
+  list-style: none;
+  list-style-type: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .Coincard {
+    width: 14em;
+    height: 5em;
+    position: relative;
+    transition: transform;
+    display: flex;
+    transform-style: preserve-3d;
+    margin: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 2.5rem;
+    margin-bottom: 1.5em;
+  }
+  .card__face {
+    position: absolute;
+    height: 180%;
+    width: 100%;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 600;
+    /* border-style: dashed; */
+  }
+  .cfcontrols {
+    display: flex;
+    margin: auto;
+    margin-top: 2rem;
+    
+    height: auto;
+    
+    width: 100%;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 1em;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+}
+
