@@ -136,74 +136,16 @@ border: 2px solid black;
 .modal::-webkit-scrollbar {
   display: none;
 }
-.modal {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;  /* breaks scrolling. bug? */
-  
- 
 
-  width: 80vw;
-  height: 60vh;
-  background-color: #fff;
-  border-radius: 25px;
-  margin: auto;
-  padding: 1rem;
-  overflow: scroll;
-  scrollbar-width: none;
-  font-family: "JetBrains Mono",monospace;
-  text-transform: lowercase;
-  border-radius: 6px;
-  box-shadow: 0 0 6px rgb(0 0 0 / 17%);
-  min-height: 34px;
-  border: 1px black;
-  border-style: solid;
-  
-}
 .stats {
   width: 10rem;
   padding: 2rem;
   }
   .stats > button {
-    margin: 0 0.5rem;
-    width: auto;
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    border-radius: 10px;
+    
     color: black;
   }
-.rc-tooltip {
-  position: absolute;
-  z-index: 1070;
-  display: block;
-  visibility: visible;
-  font-size: 1rem;
-  line-height: 1.5;
-  
-}
-.rc-tooltip-hidden {
-  display: none;
-}
-.rc-tooltip-inner {
-  padding: 8px 10px;
-  color: black;
-  text-align: left;
-  text-decoration: none;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.17);
-  min-height: 34px;
-  border: 1px black;
-  border-style: solid;
-  font-family: "JetBrains Mono",monospace;
-  text-transform: lowercase;
-  
-}
-.rc-tooltip-inner  >ul  {
-  list-style: none;
-  list-style-type: none;
-  padding: 0;
-}
+
 
 @media screen and (max-width: 700px) {
   .Coincard {
@@ -251,5 +193,14 @@ border: 2px solid black;
     align-items: center;
     flex-wrap: nowrap;
   }
+  .history--icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    
+   }
 }
 
+ul {
+  list-style-type: none;
+  padding:0;
+}

@@ -1,36 +1,32 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  createRef,
-  useContext,
-} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./coinflip.css";
 
-import Switch from '@mui/material/Switch';
 import SingleCoin from "./SingleCoin";
-import { Slider, ThemeProvider } from "@mui/material";
+import {
+  Slider,
+  Typography,
+  Dialog,
+  Switch,
+  DialogTitle,
+  Button,
+  DialogContent,
+  IconButton,
+  Popper,
+  Box,
+  FormGroup,
+  FormControlLabel,
+} from "@mui/material";
 
+import CloseIcon from "@mui/icons-material/Close";
 import { AiFillEuroCircle, AiOutlinePoundCircle } from "react-icons/ai";
-import { IoStatsChartSharp } from "react-icons/io5";
-import { BiHistory } from "react-icons/bi";
 
-
-import { createTheme } from "@mui/material/styles";
+import HistoryIcon from "@mui/icons-material/History";
+import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+import { motion } from "framer-motion"
 
 function Coinflip() {
   const divRef = useRef();
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#E8E6E3",
-      },
-      secondary: {
-        main: "#000",
-      },
-    },
-  });
   const [buttonDisabled, setButtonDisabled] = useState();
 
   const [headsCount, setheadsCount] = useState(0);
@@ -41,9 +37,9 @@ function Coinflip() {
   const [children, setChildren] = useState(1);
   const [childRefs, setChildRefs] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [popperOpen, setPopperOpen] = useState(null);
   const [flipCount, setFlipCount] = useState(0);
   const [currentState, setcurrentState] = useState([]);
-
 
   const [darkMode, setdarkMode] = useState(false);
   const darkmode = () => {
@@ -62,10 +58,11 @@ function Coinflip() {
     setFlipCount(flipCount + 1);
   };
   useEffect(() => {
-    if(JSON.parse(window.localStorage.getItem("headsCount"))){
-    setFlipped(JSON.parse(window.localStorage.getItem("flipped")));
-    setheadsCount(JSON.parse(window.localStorage.getItem("headsCount")));
-}}, []);
+    if (JSON.parse(window.localStorage.getItem("headsCount"))) {
+      setFlipped(JSON.parse(window.localStorage.getItem("flipped")));
+      setheadsCount(JSON.parse(window.localStorage.getItem("headsCount")));
+    }
+  }, []);
 
   useEffect(() => {
     window.localStorage.setItem("flipped", JSON.stringify(flipped));
@@ -74,7 +71,7 @@ function Coinflip() {
 
   useEffect(() => {
     setHistory((prev) => {
-      return [...prev, { flipNumber: flipCount, flip: currentState }];
+      return [{ flipNumber: flipCount, flip: currentState }, ...prev];
     });
   }, [flipCount]);
 
@@ -110,26 +107,48 @@ function Coinflip() {
 
     return suffix;
   };
+  const open = Boolean(popperOpen);
+  const id = open ? "simple-popper" : undefined;
+  const handlePopperClick = (e) => {
+    setPopperOpen(popperOpen ? null : e.currentTarget);
+  };
+ 
   return (
-    <div className={`content ${darkmode()}`}>
+    <>
       <div className="stats">
-        
-            <ul>
-              <li> coins flipped: {flipped}</li>
-              <li>heads: {headsCount}</li>
-              <li>tails: {flipped - headsCount}</li>
-            </ul>
-         
-          <button
-            type="
-          button"
+        <Popper id={id} open={open} anchorEl={popperOpen}>
+          <Box
+            sx={{
+              border: 1,
+              borderRadius: "15px",
+              p: 1,
+              backgroundColor: "white",
+            }}
+            onClick={(e) => handlePopperClick(e)}
           >
-            <IoStatsChartSharp />
-          </button>
-        
-        <button type="button" onClick={() => setModalOpen(true)}>
-          <BiHistory />
-        </button>
+            <ul>
+              <li>Coins flipped: {flipped}</li>
+              <li>Heads: {headsCount}</li>
+              <li>Tails: {flipped - headsCount}</li>
+            </ul>
+          </Box>
+        </Popper>
+
+        <IconButton
+          aria-describedby={id}
+          aria-label="stats"
+          size="large"
+          onClick={(e) => handlePopperClick(e)}
+        >
+          <LeaderboardIcon />
+        </IconButton>
+        <IconButton
+          aria-label="stats"
+          size="large"
+          onClick={() => setModalOpen(true)}
+        >
+          <HistoryIcon />
+        </IconButton>
       </div>
       <div ref={divRef} className="scene">
         {[...Array(children).keys()].map((e, index) => (
@@ -144,50 +163,67 @@ function Coinflip() {
         ))}{" "}
       </div>
       <div className="cfcontrols">
-        <ThemeProvider theme={theme}>
-          <Slider
-            size="large"
-            defaultValue={1}
-            onChange={handleMultiChange}
-            aria-label="Small"
-            step={1}
-            min={1}
-            max={6}
-            valueLabelDisplay="auto"
-            className="slider"
-            disabled={buttonDisabled}
-            color={darkMode ? "primary" : "secondary"}
-          />
-        </ThemeProvider>
+        <Slider
+          size="large"
+          defaultValue={1}
+          onChange={(e) => handleMultiChange(e)}
+          aria-label="Small"
+          step={1}
+          min={1}
+          max={6}
+          valueLabelDisplay="auto"
+          className="slider"
+          disabled={buttonDisabled}
+        />
 
-        <div className="switch">
-          <label htmlFor="switch">Fast flip:&nbsp;</label>
-          <Switch
-            onChange={handleFastFlip}
-            checked={fastFlip}
-            disabled={buttonDisabled}
-            offColor="#000"
-            onColor="#000"
-            id="switch"
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                onChange={() => handleFastFlip()}
+                checked={fastFlip}
+                disabled={buttonDisabled}
+                id="switch"
+               
+              />
+            }
+            label="Fast flip"
+            labelPlacement="start"
           />
-        </div>
-        <button
-          className="flipbtn"
-          onClick={() => {
-            handleClick();
-          }}
+        </FormGroup>
+
+        <Button
+          variant="contained"
+          onClick={() => handleClick()}
           disabled={buttonDisabled}
         >
-          flip
-        </button>
+          Flip
+        </Button>
       </div>
-
-      
-        <div
-          onClick={() => setModalOpen(!modalOpen)}
-          className="modal"
-          id="modal"
-        >
+      <Dialog
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        maxWidth="sm"
+        fullWidth={true}
+        
+      >
+        
+        <DialogTitle>
+          <Typography variant="h3">Flip history</Typography>
+          <IconButton
+            aria-label="close"
+            onClick={() => setModalOpen(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: "black",
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
           {history.map((item, index) => {
             return (
               <div key={index} className="history--item">
@@ -209,9 +245,9 @@ function Coinflip() {
               </div>
             );
           })}
-        </div>
-      
-    </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
