@@ -1,34 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./coinflip.css";
-
 import SingleCoin from "./SingleCoin";
 import {
   Slider,
-  Typography,
-  Dialog,
   Switch,
-  DialogTitle,
   Button,
-  DialogContent,
   IconButton,
   Popper,
   Box,
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
-
-import CloseIcon from "@mui/icons-material/Close";
-import { AiFillEuroCircle, AiOutlinePoundCircle } from "react-icons/ai";
-
 import HistoryIcon from "@mui/icons-material/History";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import { motion } from "framer-motion"
+import History from "./History";
+
 
 function Coinflip() {
   const divRef = useRef();
 
   const [buttonDisabled, setButtonDisabled] = useState();
-
   const [headsCount, setheadsCount] = useState(0);
   const [flipped, setFlipped] = useState(0);
   const [history, setHistory] = useState([]);
@@ -98,15 +89,6 @@ function Coinflip() {
     childRefs.forEach((c) => c.current.flipCoin());
   };
 
-  const historyNumberSuffix = (num) => {
-    let suffix = "th";
-
-    if (num % 10 == 1 && num % 100 !== 11) suffix = "st";
-    if (num % 10 == 2 && num % 100 !== 12) suffix = "nd";
-    if (num % 10 == 3 && num % 100 !== 13) suffix = "rd";
-
-    return suffix;
-  };
   const open = Boolean(popperOpen);
   const id = open ? "simple-popper" : undefined;
   const handlePopperClick = (e) => {
@@ -200,53 +182,7 @@ function Coinflip() {
           Flip
         </Button>
       </div>
-      <Dialog
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        maxWidth="sm"
-        fullWidth={true}
-        
-      >
-        
-        <DialogTitle>
-          <Typography variant="h3">Flip history</Typography>
-          <IconButton
-            aria-label="close"
-            onClick={() => setModalOpen(false)}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          {history.map((item, index) => {
-            return (
-              <div key={index} className="history--item">
-                <h3>
-                  {item.flipNumber > 0 &&
-                    item.flipNumber +
-                      historyNumberSuffix(item.flipNumber) +
-                      " flip"}
-                </h3>
-                <div className="iconholder">
-                  {item.flip.map((o, p) => {
-                    return o ? (
-                      <AiFillEuroCircle key={p} className="history--icon" />
-                    ) : (
-                      <AiOutlinePoundCircle key={p} className="history--icon" />
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-        </DialogContent>
-      </Dialog>
+      <History setModalOpen={setModalOpen} modalOpen={modalOpen} history={history}/>
     </>
   );
 }
