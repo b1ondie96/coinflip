@@ -17,6 +17,7 @@ import History from "./History";
 
 
 function Coinflip() {
+  document.title = 'Coinflip'
   const divRef = useRef();
 
   const [buttonDisabled, setButtonDisabled] = useState();
